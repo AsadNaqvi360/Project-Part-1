@@ -1,45 +1,41 @@
-<%- include ../Partials/header.ejs%>
-<%- include ../Partials/main_nav.ejs%>
-<!--Book Database-->
-<main class="container">
-    <div class="row">
-        <div class="offset-md-1 col-md-10">
-            <h1><%= title %></h1>
-            <br>
-            <a href="/bookslist/add" class="btn btn-primary" role="button">
-                <i class="fas fa-plus-circle"></i> Add Book
-            </a>
-            <table class="table table-bordered table-striped table-hover">
-                <tr class="d-flex">
-                    <th class="text-center col-2">Name</th>
-                    <th class="text-center col-2">Author</th>
-                    <th class="text-center col-1">Published</th>
-                    <th class="col-4">Description</th>
-                    <th class="text-center col-1">Price</th>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Inventory</title>
+</head>
+<body>
+    <h1>Inventory List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Supplier</th>
+                <th>Date Received</th>
+                <th>Description</th>
+                <th>Cost</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% ItemList.forEach(function(item) { %>
+                <tr>
+                    <td><%= item.ItemName %></td>
+                    <td><%= item.Supplier %></td>
+                    <td><%= item.DateReceived.toDateString() %></td>
+                    <td><%= item.ItemDescription %></td>
+                    <td><%= item.Cost %></td>
+                    <td><%= item.Quantity %></td>
+                    <td>
+                        <a href="/inventory/edit/<%= item._id %>">Edit</a> |
+                        <a href="/inventory/delete/<%= item._id %>">Delete</a>
+                    </td>
                 </tr>
-                <% for(let count=0;count<BookList.length;count++) { %>
-                <tr class="d-flex">
-                    <td class="text-center col-2"><%= BookList[count].Name %></td>
-                    <td class="text-center col-2"><%= BookList[count].Author %></td>
-                    <td class="text-center col-1"><%=BookList[count].Published%></td>
-                    <td class="col-4"><%= BookList[count].Description %> </td>
-                    <td class="text-center col-1"><%= BookList[count].Price %></td>
-                    <td class="text-center col-1">
-                        <a href="/bookslist/edit/<%= BookList[count]._id%>"
-                            class="btn btn-primary btn-sm">
-                        <i class="fas fa-pencil-alt"></i>Edit
-                    </a>
-                    </td>
-                    <td class="text-center col-1">
-                        <a href="/bookslist/delete/<%= BookList[count]._id%>"
-                            class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash-alt"></i>Delete
-                    </a>
-                    </td>
-                </tr>    
-                    <%} %>
-            </table>
-        </div>
-    </div>
-</main>
-<%- include ../Partials/footer.ejs%>
+            <% }); %>
+        </tbody>
+    </table>
+    <a href="/inventory/add">Add New Item</a>
+</body>
+</html>
