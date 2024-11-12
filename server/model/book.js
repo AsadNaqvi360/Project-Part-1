@@ -2,14 +2,16 @@
 
 const mongoose = require("mongoose");
 
-let bookModel = mongoose.Schema({
-    Name: String,
-    Author: String,
-    Published: String,
-    Description: String,
-    Price: Number
+let inventoryModel = mongoose.Schema({
+    ItemName: String,
+    Supplier: String,
+    DateReceived: Date,
+    ItemDescription: String,
+    Cost: Number,
+    Quantity: Number
 },
 {
-    collection:"Bio_books"
+    collection: "Warehouse_Inventory"
 });
-module.exports =mongoose.model('Book',bookModel);
+module.exports = mongoose.model('Item', inventoryModel);
+
