@@ -9,11 +9,7 @@ let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
 let inventoryRouter = require('../routes/book'); // Updated router to handle inventory
 
-// view engine setup
-app.set('views', path.join(__dirname, '../views'));
-app.set('view engine', 'ejs');
-
-// MongoDB setup
+// Set up MongoDB connection
 const mongoose = require('mongoose');
 let DB = require('./db');
 mongoose.connect(DB.URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -23,23 +19,31 @@ mongoDB.once('open', () => {
     console.log("Connected with MongoDB");
 });
 
+// view engine setup
+app.set('views', path.join(__dirname, '../views'));
+app.set('view engine', 'ejs');
+
+// Middleware setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../../public')));
-app.use(express.static(path.join(__dirname, '../../node_modules')));
 
+// Static files setup for Bootstrap and custom CSS
+app.use(express.static(path.join(__dirname, '../../public'))); // Serves public files, including CSS
+app.use(express.static(path.join(__dirname, '../../node_modules'))); // Serves node_modules for Bootstrap
+
+// Route setup
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/inventory', inventoryRouter); // Updated path
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
